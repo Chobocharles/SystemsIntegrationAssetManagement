@@ -50,10 +50,10 @@ namespace Asset_Management.Controllers
         // GET: Assets/Create
         public IActionResult Create()
         {
-            ViewData["AssetTypeId"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetTypeId");
-            ViewData["ConditionId"] = new SelectList(_context.Condition, "ConditionId", "ConditionId");
-            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactId");
-            ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId");
+            ViewData["AssetType"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetType1");
+            ViewData["Condition"] = new SelectList(_context.Condition, "ConditionId", "Condition1");
+            ViewData["Contact"] = new SelectList(_context.Contact, "ContactId", "LastName");
+            ViewData["Location"] = new SelectList(_context.Location, "LocationId", "Location1");
             return View();
         }
 

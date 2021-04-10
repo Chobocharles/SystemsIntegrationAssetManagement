@@ -49,6 +49,8 @@ namespace Asset_Management
                     });
             });
 
+            services.AddTransient<Models.LDAP.User, Models.LDAP.User>();
+
             services.Configure<IISServerOptions>(options =>
             {
                 options.AutomaticAuthentication = false;

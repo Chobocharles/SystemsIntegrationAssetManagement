@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Asset_Management.Models.SQL;
+using Asset_Management.Models.LDAP;
 
 namespace Asset_Management.Controllers
 {
@@ -13,9 +14,12 @@ namespace Asset_Management.Controllers
     {
         private readonly AssetContext _context;
 
-        public ContactsController(AssetContext context)
+        private readonly User _user;
+        public ContactsController(AssetContext context, User user)
         {
             _context = context;
+
+            _user = user;
         }
 
         // GET: Contacts
