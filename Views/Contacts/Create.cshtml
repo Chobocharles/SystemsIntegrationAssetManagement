@@ -1,111 +1,164 @@
-﻿@model Asset_Management.Models.SQL.Contact
+﻿@model Asset_Management.Models.CreateContact
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Contact";
 }
 
-<h1>Create</h1>
-
-<h4>Contact</h4>
+<h4>Create Contact</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="Company" class="control-label"></label>
-                <input asp-for="Company" class="form-control" />
-                <span asp-validation-for="Company" class="text-danger"></span>
+                <label asp-for="Contact.FirstName" class="control-label"></label>
+                <input asp-for="Contact.FirstName" class="form-control" />
+                <span asp-validation-for="Contact.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label asp-for="Contact.LastName" class="control-label"></label>
+                <input asp-for="Contact.LastName" class="form-control" />
+                <span asp-validation-for="Contact.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label asp-for="Contact.EmailAddress" class="control-label"></label>
+                <input asp-for="Contact.EmailAddress" class="form-control" />
+                <span asp-validation-for="Contact.EmailAddress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmailAddress" class="control-label"></label>
-                <input asp-for="EmailAddress" class="form-control" />
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                <label asp-for="Contact.Company" class="control-label"></label>
+                <input asp-for="Contact.Company" class="form-control" />
+                <span asp-validation-for="Contact.Company" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="JobTitle" class="control-label"></label>
-                <input asp-for="JobTitle" class="form-control" />
-                <span asp-validation-for="JobTitle" class="text-danger"></span>
+                <label asp-for="Contact.JobTitle" class="control-label"></label>
+                <input asp-for="Contact.JobTitle" class="form-control" />
+                <span asp-validation-for="Contact.JobTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BusinessPhone" class="control-label"></label>
-                <input asp-for="BusinessPhone" class="form-control" />
-                <span asp-validation-for="BusinessPhone" class="text-danger"></span>
+                <label asp-for="Contact.BusinessPhone" class="control-label"></label>
+                <input asp-for="Contact.BusinessPhone" class="form-control" />
+                <span asp-validation-for="Contact.BusinessPhone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Extension" class="control-label"></label>
-                <input asp-for="Extension" class="form-control" />
-                <span asp-validation-for="Extension" class="text-danger"></span>
+                <label asp-for="Contact.Extension" class="control-label"></label>
+                <input asp-for="Contact.Extension" class="form-control" />
+                <span asp-validation-for="Contact.Extension" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HomePhone" class="control-label"></label>
-                <input asp-for="HomePhone" class="form-control" />
-                <span asp-validation-for="HomePhone" class="text-danger"></span>
+                <label asp-for="Contact.HomePhone" class="control-label"></label>
+                <input asp-for="Contact.HomePhone" class="form-control" />
+                <span asp-validation-for="Contact.HomePhone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MobilePhone" class="control-label"></label>
-                <input asp-for="MobilePhone" class="form-control" />
-                <span asp-validation-for="MobilePhone" class="text-danger"></span>
+                <label asp-for="Contact.MobilePhone" class="control-label"></label>
+                <input asp-for="Contact.MobilePhone" class="form-control" />
+                <span asp-validation-for="Contact.MobilePhone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FaxNumber" class="control-label"></label>
-                <input asp-for="FaxNumber" class="form-control" />
-                <span asp-validation-for="FaxNumber" class="text-danger"></span>
+                <label asp-for="Contact.FaxNumber" class="control-label"></label>
+                <input asp-for="Contact.FaxNumber" class="form-control" />
+                <span asp-validation-for="Contact.FaxNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+                <label asp-for="Contact.Address" class="control-label"></label>
+                <input asp-for="Contact.Address" class="form-control" />
+                <span asp-validation-for="Contact.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
+                <label asp-for="Contact.City" class="control-label"></label>
+                <input asp-for="Contact.City" class="form-control" />
+                <span asp-validation-for="Contact.City" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
-                <span asp-validation-for="State" class="text-danger"></span>
+                <label asp-for="Contact.State" class="control-label"></label>
+                <input asp-for="Contact.State" class="form-control" />
+                <span asp-validation-for="Contact.State" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Province" class="control-label"></label>
-                <input asp-for="Province" class="form-control" />
-                <span asp-validation-for="Province" class="text-danger"></span>
+                <label asp-for="Contact.Province" class="control-label"></label>
+                <input asp-for="Contact.Province" class="form-control" />
+                <span asp-validation-for="Contact.Province" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ZipCode" class="control-label"></label>
-                <input asp-for="ZipCode" class="form-control" />
-                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                <label asp-for="Contact.ZipCode" class="control-label"></label>
+                <input asp-for="Contact.ZipCode" class="form-control" />
+                <span asp-validation-for="Contact.ZipCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
+                <label asp-for="Contact.Country" class="control-label"></label>
+                <input asp-for="Contact.Country" class="form-control" />
+                <span asp-validation-for="Contact.Country" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="WebPage" class="control-label"></label>
-                <input asp-for="WebPage" class="form-control" />
-                <span asp-validation-for="WebPage" class="text-danger"></span>
+                <label asp-for="Contact.WebPage" class="control-label"></label>
+                <input asp-for="Contact.WebPage" class="form-control" />
+                <span asp-validation-for="Contact.WebPage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
+                <label asp-for="Contact.Notes" class="control-label"></label>
+                <input asp-for="Contact.Notes" class="form-control" />
+                <span asp-validation-for="Contact.Notes" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Contact.Picture" class="control-label">
+                    File
+                    input
+                </label>
+                <input asp-for="Contact.Picture" type="file"
+                       aria-describedby="fileHelp" class="form-control-file" name="img" accept="image/*" />
+                <span asp-validation-for="Contact.Picture" class="text-danger"></span>
+                <small id="fileHelp" class="form-text text-muted">
+                    This is
+                    some placeholder block-level help text for the above input. It's a bit
+                    lighter and easily wraps to a new line.
+                </small>
+            </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+    <div class="col-md-4 offset-2">
+        <h4>Active Directory Search</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Search" onsubmit="search(this); return false;">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">&commat;</span>
+                        </div>
+                        <input type="text" asp-for="Search.UserID" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" value="Search" type="submit">Search</button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Search.UserID" class="text-danger"></span>
+                </form>
+            </div>
+        </div>
+        <div class="row" style="margin-top:1.2em;">
+            <div class="col-md-12">
+                <div class="card" id="resultObject" style="display:none;">
+                    <div class="card-body">
+                        <h5 class="card-title"><span id="cardDisplayName"></span></h5>
+                        <p class="card-text">
+                            First Name: <span id="cardFN"></span><br />
+                            Last Name: <span id="cardLN"></span><br />
+                            Email: <span id="cardEmail"></span>
+                        </p>
+                        <button type="button" class="btn btn-primary" id="populateButton" onclick="populate(); return false;">Populate Contact</button>
+                    </div>
+                </div>
+                <div class="alert alert-warning" role="alert" id="resultNone" style="display:none;">
+                    No user found
+                </div>
+            </div>
+        </div>        
     </div>
 </div>
 
@@ -115,4 +168,64 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        function populate() {
+            var fnspan = document.getElementById("cardFN");
+            var lnspan = document.getElementById("cardLN");
+            var emailspan = document.getElementById("cardEmail");
+
+            var contactFN = document.getElementById("Contact_FirstName");
+            var contactLN = document.getElementById("Contact_LastName");
+            var contactEmal = document.getElementById("Contact_EmailAddress");
+
+            contactFN.value = fnspan.textContent;
+            contactLN.value = lnspan.textContent;
+            contactEmal.value = emailspan.textContent;
+        }
+
+        function search(form) {
+            $('#resultObject').hide();
+            $('#resultNone').hide();
+            let formData = new FormData(form);
+
+            var submitButton = form.querySelector('button[type="submit"]');
+            var inputs = form.getElementsByTagName("input");
+
+            let currentButtonValue = submitButton.innerHTML;
+
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    if (data["success"] === true) { 
+                        if (data["found"] === true) {
+                            var data2 = data['data'];
+                            console.log(data2)
+
+                            $('#cardDisplayName').text(data['data']['displayName']);
+                            $('#cardFN').text(data['data']['givenName']);
+                            $('#cardLN').text(data['data']['sn']);
+                            $('#cardEmail').text(data['data']['mail']);
+
+                            $('#populateButton').prop("disabled", !data['data']['accountEnabled']);
+                            $('#resultObject').show();
+                        }
+                        else {
+                            $('#resultNone').show();
+                        }
+                    }
+
+                    submitButton.innerHTML = currentButtonValue;
+                });
+        };
+
+    </script>
+
 }

@@ -5,18 +5,15 @@
 }
 
 <h1>Edit</h1>
-
-<h4>Asset</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-sm-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AssetId" />
             <div class="form-group">
                 <label asp-for="AssetTypeId" class="control-label"></label>
-                <select asp-for="AssetTypeId" class="form-control" asp-items="ViewBag.AssetTypeId"></select>
-                <span asp-validation-for="AssetTypeId" class="text-danger"></span>
+                <select asp-for="AssetTypeId" class="form-control" asp-items="ViewBag.AssetType"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -25,8 +22,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ConditionId" class="control-label"></label>
-                <select asp-for="ConditionId" class="form-control" asp-items="ViewBag.ConditionId"></select>
-                <span asp-validation-for="ConditionId" class="text-danger"></span>
+                <select asp-for="ConditionId" class="form-control" asp-items="ViewBag.Condition"></select>
             </div>
             <div class="form-group">
                 <label asp-for="AcquiredDate" class="control-label"></label>
@@ -45,8 +41,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="LocationId" class="control-label"></label>
-                <select asp-for="LocationId" class="form-control" asp-items="ViewBag.LocationId"></select>
-                <span asp-validation-for="LocationId" class="text-danger"></span>
+                <select asp-for="LocationId" class="form-control" asp-items="ViewBag.Location"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Brand" class="control-label"></label>
@@ -65,8 +60,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ContactId" class="control-label"></label>
-                <select asp-for="ContactId" class="form-control" asp-items="ViewBag.ContactId"></select>
-                <span asp-validation-for="ContactId" class="text-danger"></span>
+                <select asp-for="ContactId" class="form-control" asp-items="ViewBag.Contact"></select>
             </div>
             <div class="form-group">
                 <label asp-for="RetiredDate" class="control-label"></label>
@@ -113,15 +107,46 @@
                 <input asp-for="WorkCenter" class="form-control" />
                 <span asp-validation-for="WorkCenter" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                @if (Model.Picture != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Picture);
+                    var imgSrc = String.Format("data:{0};base64,{1}", Model.PictureContentType, base64);
+                    <img class="card-img-top" src="@imgSrc" alt="@Model.PictureSourceFileName">
+                }
+                else
+                {
+                    <img class="card-img-top" src="..." alt="No image">
+                }
+
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="Picture" class="control-label">
+                            Update Image
+                        </label>
+                        <input asp-for="Picture" type="file"
+                               aria-describedby="fileHelp" class="form-control-file" name="img" accept="image/*" />
+                        <span asp-validation-for="Picture" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a> |
+    <a asp-action="Delete" asp-route-id="@Model.AssetId">Delete</a>
 </div>
 
 @section Scripts {

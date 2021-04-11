@@ -1,138 +1,160 @@
 ﻿@model Asset_Management.Models.SQL.Asset
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Asset Details";
 }
 
-<h1>Details</h1>
+<h1>Asset Details</h1>
 
 <div>
-    <h4>Asset</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AcquiredDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AcquiredDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PurchasePrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PurchasePrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CurrentValue)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CurrentValue)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Brand)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Brand)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Model)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Comments)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Comments)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RetiredDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RetiredDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssetTagNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssetTagNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SerialNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SerialNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ServiceTag)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ServiceTag)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WarrantyExpires)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WarrantyExpires)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeviceId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeviceId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Verified)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Verified)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateVerified)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateVerified)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.WorkCenter)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.WorkCenter)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssetType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssetType.AssetTypeId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Condition)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Condition.ConditionId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contact)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contact.ContactId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location.LocationId)
-        </dd>
+        <div class="col-sm-6">
+            <div class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.AcquiredDate)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.AcquiredDate)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.PurchasePrice)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.PurchasePrice)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.CurrentValue)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.CurrentValue)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Brand)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Brand)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Model)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Model)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Comments)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Comments)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.RetiredDate)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.RetiredDate)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.AssetTagNumber)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.AssetTagNumber)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.SerialNumber)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.SerialNumber)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ServiceTag)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ServiceTag)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.WarrantyExpires)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.WarrantyExpires)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.DeviceId)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.DeviceId)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Verified)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Verified)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.DateVerified)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.DateVerified)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.WorkCenter)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.WorkCenter)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.AssetType)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.AssetType.AssetType1)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Condition)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Condition.Condition1)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Contact)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Contact.DisplayName)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Location)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Location.Location1)
+                </dd>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                @if (Model.Picture != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Picture);
+                    var imgSrc = String.Format("data:{0};base64,{1}", Model.PictureContentType, base64);
+                    <img class="card-img-top" src="@imgSrc" alt="@Model.PictureSourceFileName">
+                }
+                else
+                {
+                    <img class="card-img-top" src="..." alt="No image">
+                }
+
+                <div class="card-body">
+                    
+                </div>
+            </div>
+        </div>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.AssetId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a> |
+    <a asp-action="Delete" asp-route-id="@Model.AssetId">Delete</a>
 </div>
