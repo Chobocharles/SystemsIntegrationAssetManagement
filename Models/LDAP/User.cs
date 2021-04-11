@@ -77,7 +77,7 @@ namespace Asset_Management.Models.LDAP
         /// <param name="environment"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public ResultDataGet GetUserAttributes(string userName, AssetContext context, CancellationToken cancellationToken)
+        public ResultDataGet GetUserAttributes(string userName, AssetContext context)
         {
             if (userName == null) throw new ArgumentNullException(nameof(userName));
 
@@ -94,9 +94,12 @@ namespace Asset_Management.Models.LDAP
                 prodPassword = "";
             }
 
+            var domain = _configuration["LDAP:Domain"];
+            var username = _configuration["LDAP:Username"];
+
             try
             {
-                DirectoryEntry root = new DirectoryEntry(_configuration["LDAPDomain"], _configuration["LDAP:Username"], prodPassword);
+                DirectoryEntry root = new DirectoryEntry(domain, username, prodPassword);
 
 
                 using (var search = new DirectorySearcher(root))
