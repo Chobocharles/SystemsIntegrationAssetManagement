@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Asset_Management.Models.SQL;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Asset_Management.Controllers
 {
@@ -52,7 +54,7 @@ namespace Asset_Management.Controllers
         {
             ViewData["AssetType"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetType1");
             ViewData["Condition"] = new SelectList(_context.Condition, "ConditionId", "Condition1");
-            ViewData["Contact"] = new SelectList(_context.Contact, "ContactId", "LastName");
+            ViewData["Contact"] = new SelectList(_context.Contact, "ContactId", "DisplayName");
             ViewData["Location"] = new SelectList(_context.Location, "LocationId", "Location1");
             return View();
         }
@@ -62,18 +64,25 @@ namespace Asset_Management.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AssetId,AssetTypeId,Description,ConditionId,AcquiredDate,PurchasePrice,CurrentValue,LocationId,Brand,Model,Comments,ContactId,RetiredDate,AssetTagNumber,SerialNumber,ServiceTag,WarrantyExpires,DeviceId,Verified,DateVerified,WorkCenter")] Asset asset)
+        public async Task<IActionResult> Create([Bind("AssetId,AssetTypeId,Description,ConditionId,AcquiredDate,PurchasePrice,CurrentValue,LocationId,Brand,Model,Comments,ContactId,RetiredDate,AssetTagNumber,SerialNumber,ServiceTag,WarrantyExpires,DeviceId,Verified,DateVerified,WorkCenter")] Asset asset, IFormFile img)
         {
             if (ModelState.IsValid)
             {
+                if (img != null)
+                {
+                    asset.Picture = GetByteArrayFromImage(img);
+                    asset.PictureSourceFileName = Path.GetFileName(img.FileName);
+                    asset.PictureContentType = img.ContentType;
+                }
+
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AssetTypeId"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetTypeId", asset.AssetTypeId);
-            ViewData["ConditionId"] = new SelectList(_context.Condition, "ConditionId", "ConditionId", asset.ConditionId);
-            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactId", asset.ContactId);
-            ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId", asset.LocationId);
+            ViewData["AssetType"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetType1", asset.AssetTypeId);
+            ViewData["Condition"] = new SelectList(_context.Condition, "ConditionId", "Condition1", asset.ConditionId);
+            ViewData["Contact"] = new SelectList(_context.Contact, "ContactId", "DisplayName", asset.ContactId);
+            ViewData["Location"] = new SelectList(_context.Location, "LocationId", "Location1", asset.LocationId);
             return View(asset);
         }
 
@@ -90,10 +99,10 @@ namespace Asset_Management.Controllers
             {
                 return NotFound();
             }
-            ViewData["AssetTypeId"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetTypeId", asset.AssetTypeId);
-            ViewData["ConditionId"] = new SelectList(_context.Condition, "ConditionId", "ConditionId", asset.ConditionId);
-            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactId", asset.ContactId);
-            ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId", asset.LocationId);
+            ViewData["AssetType"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetType1", asset.AssetTypeId);
+            ViewData["Condition"] = new SelectList(_context.Condition, "ConditionId", "Condition1", asset.ConditionId);
+            ViewData["Contact"] = new SelectList(_context.Contact, "ContactId", "DisplayName", asset.ContactId);
+            ViewData["Location"] = new SelectList(_context.Location, "LocationId", "Location1", asset.LocationId);
             return View(asset);
         }
 
@@ -102,7 +111,7 @@ namespace Asset_Management.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AssetId,AssetTypeId,Description,ConditionId,AcquiredDate,PurchasePrice,CurrentValue,LocationId,Brand,Model,Comments,ContactId,RetiredDate,AssetTagNumber,SerialNumber,ServiceTag,WarrantyExpires,DeviceId,Verified,DateVerified,WorkCenter")] Asset asset)
+        public async Task<IActionResult> Edit(int id, [Bind("AssetId,AssetTypeId,Description,ConditionId,AcquiredDate,PurchasePrice,CurrentValue,LocationId,Brand,Model,Comments,ContactId,RetiredDate,AssetTagNumber,SerialNumber,ServiceTag,WarrantyExpires,DeviceId,Verified,DateVerified,WorkCenter")] Asset asset, IFormFile img)
         {
             if (id != asset.AssetId)
             {
@@ -111,9 +120,27 @@ namespace Asset_Management.Controllers
 
             if (ModelState.IsValid)
             {
+                var assetFound = await _context.Asset.FindAsync(asset.AssetId);
+
+                if (img != null)
+                {
+                    asset.Picture = GetByteArrayFromImage(img);
+                    asset.PictureSourceFileName = Path.GetFileName(img.FileName);
+                    asset.PictureContentType = img.ContentType;
+                }
+                else
+                {
+                    if (assetFound.Picture != null)
+                    {
+                        asset.Picture = assetFound.Picture;
+                        asset.PictureSourceFileName = assetFound.PictureSourceFileName;
+                        asset.PictureContentType = assetFound.PictureContentType;
+                    }
+                }
+
                 try
                 {
-                    _context.Update(asset);
+                    _context.Entry(assetFound).CurrentValues.SetValues(asset);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -129,10 +156,10 @@ namespace Asset_Management.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AssetTypeId"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetTypeId", asset.AssetTypeId);
-            ViewData["ConditionId"] = new SelectList(_context.Condition, "ConditionId", "ConditionId", asset.ConditionId);
-            ViewData["ContactId"] = new SelectList(_context.Contact, "ContactId", "ContactId", asset.ContactId);
-            ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId", asset.LocationId);
+            ViewData["AssetType"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetType1", asset.AssetTypeId);
+            ViewData["Condition"] = new SelectList(_context.Condition, "ConditionId", "Condition1", asset.ConditionId);
+            ViewData["Contact"] = new SelectList(_context.Contact, "ContactId", "DisplayName", asset.ContactId);
+            ViewData["Location"] = new SelectList(_context.Location, "LocationId", "Location1", asset.LocationId);
             return View(asset);
         }
 
@@ -172,6 +199,13 @@ namespace Asset_Management.Controllers
         private bool AssetExists(int id)
         {
             return _context.Asset.Any(e => e.AssetId == id);
+        }
+
+        private byte[] GetByteArrayFromImage(IFormFile file)
+        {
+            using var target = new MemoryStream();
+            file.CopyTo(target);
+            return target.ToArray();
         }
     }
 }

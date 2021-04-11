@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Asset_Management.Models.SQL;
+using System.Drawing;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Asset_Management.Models;
 using Asset_Management.Models.LDAP;
 
 namespace Asset_Management.Controllers
@@ -15,6 +19,7 @@ namespace Asset_Management.Controllers
         private readonly AssetContext _context;
 
         private readonly User _user;
+
         public ContactsController(AssetContext context, User user)
         {
             _context = context;
@@ -57,15 +62,36 @@ namespace Asset_Management.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactId,Company,FirstName,LastName,EmailAddress,JobTitle,BusinessPhone,Extension,HomePhone,MobilePhone,FaxNumber,Address,City,State,Province,ZipCode,Country,WebPage,Notes")] Contact contact)
+        public async Task<IActionResult> Create([Bind("ContactId,Company,FirstName,LastName,EmailAddress,JobTitle,BusinessPhone,Extension,HomePhone,MobilePhone,FaxNumber,Address,City,State,Province,ZipCode,Country,WebPage,Notes,Picture")] Contact contact, IFormFile img)
         {
             if (ModelState.IsValid)
             {
+                if (img != null)
+                {
+                    contact.Picture = GetByteArrayFromImage(img);
+                    contact.PictureSourceFileName = Path.GetFileName(img.FileName);
+                    contact.PictureContentType = img.ContentType;
+                }
+
+                contact.DisplayName = String.Format("{0}, {1}", contact.LastName, contact.FirstName);
+
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(contact);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Search([Bind("UserID")] ContactBindModel search)
+        {
+            if (ModelState.IsValid)
+            {
+                var userFound = _user.GetUserAttributes(search.UserID, _context);
+                return Ok(userFound);
+            }
+            return BadRequest(search);
         }
 
         // GET: Contacts/Edit/5
@@ -89,7 +115,7 @@ namespace Asset_Management.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContactId,Company,FirstName,LastName,EmailAddress,JobTitle,BusinessPhone,Extension,HomePhone,MobilePhone,FaxNumber,Address,City,State,Province,ZipCode,Country,WebPage,Notes")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("ContactId,Company,FirstName,LastName,EmailAddress,JobTitle,BusinessPhone,Extension,HomePhone,MobilePhone,FaxNumber,Address,City,State,Province,ZipCode,Country,WebPage,Notes,Picture")] Contact contact, IFormFile img)
         {
             if (id != contact.ContactId)
             {
@@ -98,9 +124,29 @@ namespace Asset_Management.Controllers
 
             if (ModelState.IsValid)
             {
+                var contactFound = await _context.Contact.FindAsync(contact.ContactId);
+
+                if (img != null)
+                {
+                    contact.Picture = GetByteArrayFromImage(img);
+                    contact.PictureSourceFileName = Path.GetFileName(img.FileName);
+                    contact.PictureContentType = img.ContentType;
+                }
+                else
+                {
+                    if (contactFound.Picture != null)
+                    {
+                        contact.Picture = contactFound.Picture;
+                        contact.PictureSourceFileName = contactFound.PictureSourceFileName;
+                        contact.PictureContentType = contactFound.PictureContentType;
+                    }
+                }
+
+                contact.DisplayName = String.Format("{0}, {1}", contact.LastName, contact.FirstName);
+
                 try
                 {
-                    _context.Update(contact);
+                    _context.Entry(contactFound).CurrentValues.SetValues(contact);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -151,6 +197,13 @@ namespace Asset_Management.Controllers
         private bool ContactExists(int id)
         {
             return _context.Contact.Any(e => e.ContactId == id);
+        }
+
+        private byte[] GetByteArrayFromImage(IFormFile file)
+        {
+            using var target = new MemoryStream();
+            file.CopyTo(target);
+            return target.ToArray();
         }
     }
 }
