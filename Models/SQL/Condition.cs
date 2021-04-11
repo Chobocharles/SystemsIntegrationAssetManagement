@@ -21,6 +21,7 @@ namespace Asset_Management.Models.SQL
         public int ConditionId { get; set; }
         [Column("Condition")]
         [StringLength(20)]
+        [Display(Name = "Condition")]
         public string Condition1 { get; set; }
 
         [InverseProperty("Condition")]

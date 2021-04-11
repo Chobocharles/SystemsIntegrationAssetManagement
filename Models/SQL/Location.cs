@@ -18,8 +18,10 @@ namespace Asset_Management.Models.SQL
 
         [Key]
         [Column("LocationID")]
+        [Display(Name = "Location ID")]
         public int LocationId { get; set; }
         [Column("Location")]
+        [Display(Name = "Location")]
         public string Location1 { get; set; }
 
         [InverseProperty("Location")]

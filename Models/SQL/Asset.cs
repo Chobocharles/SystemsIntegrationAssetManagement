@@ -14,44 +14,67 @@ namespace Asset_Management.Models.SQL
         [Key]
         [Column("AssetID")]
         public int AssetId { get; set; }
+        [Required]
         [Column("AssetTypeID")]
+        [Display(Name = "Asset Type ID*")]
         public int AssetTypeId { get; set; }
         [StringLength(255)]
         public string Description { get; set; }
+        [Required]
         [Column("ConditionID")]
+        [Display(Name = "Condition*")]
         public int ConditionId { get; set; }
         [Column(TypeName = "date")]
+        [Display(Name = "Aquired Date")]
         public DateTime? AcquiredDate { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
+        [Display(Name = "Purchase Price")]
         public decimal PurchasePrice { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
+        [Display(Name = "Current Value")]
         public decimal CurrentValue { get; set; }
+        [Required]
         [Column("LocationID")]
+        [Display(Name = "Location*")]
         public int LocationId { get; set; }
         [StringLength(20)]
         public string Brand { get; set; }
         [StringLength(255)]
         public string Model { get; set; }
         public string Comments { get; set; }
+        [Required]
         [Column("ContactID")]
+        [Display(Name = "Contact*")]
         public int ContactId { get; set; }
         [Column(TypeName = "date")]
+        [Display(Name = "Retired Date")]
         public DateTime? RetiredDate { get; set; }
+        [Display(Name = "Asset Tag Number")]
         public int? AssetTagNumber { get; set; }
         [StringLength(255)]
+        [Display(Name = "Serial Number")]
         public string SerialNumber { get; set; }
         [StringLength(255)]
+        [Display(Name = "Service Tag")]
         public string ServiceTag { get; set; }
         [Column(TypeName = "date")]
+        [Display(Name = "Warranty Expiration Date")]
         public DateTime? WarrantyExpires { get; set; }
         [Column("DeviceID")]
         [StringLength(255)]
+        [Display(Name = "Device ID")]
         public string DeviceId { get; set; }
         public bool Verified { get; set; }
         [Column(TypeName = "date")]
+        [Display(Name = "Verified Date")]
         public DateTime? DateVerified { get; set; }
         [StringLength(255)]
+        [Display(Name = "Work Center")]
         public string WorkCenter { get; set; }
+        [Display(Name = "Device Image")]
+        public byte[] Picture { get; set; }
+        public string PictureSourceFileName { get; set; }
+        public string PictureContentType { get; set; }
 
         [ForeignKey(nameof(AssetTypeId))]
         [InverseProperty("Asset")]

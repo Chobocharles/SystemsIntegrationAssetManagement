@@ -21,6 +21,7 @@ namespace Asset_Management.Models.SQL
         public int AssetTypeId { get; set; }
         [Column("AssetType")]
         [StringLength(20)]
+        [Display(Name = "Asset Type")]
         public string AssetType1 { get; set; }
 
         [InverseProperty("AssetType")]
