@@ -1,4 +1,5 @@
 using Asset_Management.Models.SQL;
+using Asset_Management.Models.Strings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace Asset_Management
 {
@@ -30,6 +32,11 @@ namespace Asset_Management
             services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
+            if (!Base64Model.TryParseBase64(Configuration["Database:Password"], Encoding.UTF8, out var pwd))
+            {
+                pwd = "";
+            }
+
             var connStringBuilder = new SqlConnectionStringBuilder
             {
                 DataSource = Configuration["Database:Server"],
@@ -37,7 +44,7 @@ namespace Asset_Management
                 IntegratedSecurity = false,
                 PersistSecurityInfo = true,
                 UserID = Configuration["Database:Username"],
-                Password = Configuration["Database:Password"]
+                Password = pwd
             };
 
             services.AddDbContext<AssetContext>(options =>
