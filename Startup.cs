@@ -63,6 +63,12 @@ namespace Asset_Management
                 options.AutomaticAuthentication = false;
             });
 
+            services.AddAntiforgery(options => {
+                options.Cookie.Name = "X-CSRF-TOKEN-AssetManagement";
+                options.HeaderName = "X-CSRF-TOKEN-AssetManagement";
+                options.FormFieldName = "X-CSRF-TOKEN-AssetManagement";
+            });
+
             services.AddControllersWithViews(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
