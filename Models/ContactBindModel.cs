@@ -12,6 +12,6 @@ namespace Asset_Management.Models
         [Display(Name = "User ID")]
         [Required, MaxLength(255)]
         [MinLength(1, ErrorMessage = "Please enter at least 1 character")]
-        public string UserID { get; set; }        
+        public string UserID { get; set; }
     }
 }
