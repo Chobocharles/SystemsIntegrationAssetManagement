@@ -23,7 +23,7 @@ namespace Asset_Management.Controllers
         // GET: Assets
         public async Task<IActionResult> Index()
         {
-            var assetContext = _context.Asset.Include(a => a.AssetType).Include(a => a.Condition).Include(a => a.Contact).Include(a => a.Location);
+            var assetContext = _context.Asset.Include(a => a.AssetType).Include(a => a.Condition).Include(a => a.Contact).Include(a => a.Location).Include(a => a.ServiceRecord);
             return View(await assetContext.ToListAsync());
         }
 
@@ -40,6 +40,7 @@ namespace Asset_Management.Controllers
                 .Include(a => a.Condition)
                 .Include(a => a.Contact)
                 .Include(a => a.Location)
+                .Include(a => a.ServiceRecord)
                 .FirstOrDefaultAsync(m => m.AssetId == id);
             if (asset == null)
             {
