@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Asset_Management.Models.SQL.AssetType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetType1)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetType1)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AssetTypeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AssetTypeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AssetTypeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

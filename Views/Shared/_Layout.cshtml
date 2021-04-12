@@ -14,7 +14,9 @@
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon" data-children-count="0"></span>
         </button>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+
+        @await Component.InvokeAsync("Search")
+
         <ul class="navbar-nav px-3">
             @if (User.Identity.IsAuthenticated)
             {
@@ -42,7 +44,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/contacts">
+                            <a class="nav-link" href="/Contacts">
                                 <i class="fas fa-user-friends"></i>
                                 Users
                             </a>
@@ -51,6 +53,18 @@
                             <a class="nav-link" href="/Assets">
                                 <i class="fas fa-laptop"></i>
                                 Devices
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ServiceRecords">
+                                <i class="fas fa-tools"></i>
+                                Service Records
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/AssetTypes">
+                                <i class="fas fa-laptop-medical"></i>
+                                Device Types
                             </a>
                         </li>
                         <li class="nav-item">

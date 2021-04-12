@@ -1,0 +1,61 @@
+﻿@model Asset_Management.Models.SearchBindModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="container-fluid">
+
+    <form asp-controller="Home" asp-action="Search" enctype="multipart/form-data" style="width:100%" onsubmit="searchMain(this); return false;">
+        <div class="input-group">
+            <input asp-for="Search" class="form-control form-control-dark" type="text" style="height: 100%;" placeholder="Search" aria-label="Search" tabindex="1">
+            <select asp-for="SearchType" asp-items="Model.SearchTypes" class="form-control form-control-dark" tabindex="2" style="height: 100%;"></select>
+
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    <div id="search-dropdown" class="search-dropdown shadow-5" style="">
+        <ul id="mdb-5-search-list" class="list-unstyled mb-0 ps" style="max-height:250px;overflow-y:auto;display:none;">
+            <li>
+                <a class="pt-2 px-2 text-muted d-block" href="/docs/standard/getting-started/changelog/">
+                    <p class="text-uppercase mb-0">Changelog</p>
+                    <p class="small font-weight-bold mb-0 pb-2">Getting started</p>
+                    <p class="small mb-0 pb-2 mdb-5-search-keywords">relea<u class="text-primary">se</u>s</p>
+                </a>
+                <hr class="m-0 p-0">
+            </li>
+
+
+            <li>
+                <a class="pt-2 px-2 text-muted d-block" href="/docs/standard/layout/flexbox/">
+                    <p class="text-uppercase mb-0">Flexbox</p>
+                    <p class="small font-weight-bold mb-0 pb-2">Layout</p>
+                    <p class="small mb-0 pb-2 mdb-5-search-keywords">align <u class="text-primary">se</u>lf</p>
+                </a>
+                <hr class="m-0 p-0">
+            </li>
+
+            <li>
+                <a class="pt-2 px-2 text-muted d-block" href="/docs/standard/getting-started/changelog/">
+                    <p class="text-uppercase mb-0">Changelog</p>
+                    <p class="small font-weight-bold mb-0 pb-2">Getting started</p>
+                    <p class="small mb-0 pb-2 mdb-5-search-keywords">relea<u class="text-primary">se</u>s</p>
+                </a>
+                <hr class="m-0 p-0">
+            </li>
+
+
+            <li>
+                <a class="pt-2 px-2 text-muted d-block" href="/docs/standard/layout/flexbox/">
+                    <p class="text-uppercase mb-0">Flexbox</p>
+                    <p class="small font-weight-bold mb-0 pb-2">Layout</p>
+                    <p class="small mb-0 pb-2 mdb-5-search-keywords">align <u class="text-primary">se</u>lf</p>
+                </a>
+                <hr class="m-0 p-0">
+            </li>
+        </ul>
+        <hr class="my-0">
+        <p class="text-muted small text-end pe-3 mt-3" style="text-align: right !important; padding-right: 1rem !important;">search results: <strong id="mdb-5-search-count">20</strong></p>
+    </div>
+</div>

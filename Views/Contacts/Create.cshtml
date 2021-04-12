@@ -206,9 +206,6 @@
                 .then(function (data) {
                     if (data["success"] === true) { 
                         if (data["found"] === true) {
-                            var data2 = data['data'];
-                            console.log(data2)
-
                             $('#cardDisplayName').text(data['data']['displayName']);
                             $('#cardFN').text(data['data']['givenName']);
                             $('#cardLN').text(data['data']['sn']);

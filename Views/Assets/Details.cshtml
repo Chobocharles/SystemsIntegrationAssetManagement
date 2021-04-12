@@ -146,9 +146,65 @@
                     <img class="card-img-top" src="..." alt="No image">
                 }
 
-                <div class="card-body">
-                    
-                </div>
+            </div>
+
+            <div class="table-responsive" style="margin-top:1.5em">
+                <table class="table table-striped table-bordered table-hover table-sm">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                Device Name
+                            </th>
+                            <th>
+                                Description Of Work
+                            </th>
+                            <th>
+                                Parts Replaced 
+                            </th>
+                            <th>
+                                Problem
+                            </th>
+                            <th>
+                                Service Date 
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ServiceRecord)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DeviceName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DescriptionOfWork)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PartsReplaced)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Problem)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ServiceDate)
+                                </td>
+                                <td>
+                                    <a asp-controller="ServiceRecords" asp-action="Edit" asp-route-id="@item.AssetId">Edit</a> |
+                                    <a asp-controller="ServiceRecords" asp-action="Details" asp-route-id="@item.AssetId">Details</a> |
+                                    <a asp-controller="ServiceRecords" asp-action="Delete" asp-route-id="@item.AssetId">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <a asp-controller="ServiceRecords" asp-action="Create" asp-route-id="@Model.AssetId">Create</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </dl>
