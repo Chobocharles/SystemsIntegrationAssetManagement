@@ -1,43 +1,53 @@
-﻿
+﻿/* globals Chart:false, feather:false */
 
-var x = document.getElementById("searchMain");
-x.addEventListener("focus", myFocusFunction, true);
-x.addEventListener("blur", myBlurFunction, true);
+(function () {
+  'use strict'
 
-function myFocusFunction() {
-    document.getElementById("search-dropdown").style.display = "block";
-}
+  feather.replace()
 
-function myBlurFunction() {
-    document.getElementById("search-dropdown").style.display = "none";
-}
-
-function searchMain(form) {
-    let inputVal = document.getElementById("SearchData_Search").value;
-    let inputOption = document.getElementById('SearchData_SearchType').value;
-
-    debugger;
-
-    let formData = new FormData(form);
-
-    var submitButton = form.querySelector('button[type="submit"]');
-    var inputs = form.getElementsByTagName("input");
-
-    let currentButtonValue = submitButton.innerHTML;
-
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-    fetch(form.action, {
-        method: form.method,
-        body: formData
-    })
-        .then(function (response) {
-            debugger;
-            return response.json();
-        })
-        .then(function (data) {
-            debugger;
-
-            submitButton.innerHTML = currentButtonValue;
-        });
-}
+  // Graphs
+  var ctx = document.getElementById('myChart')
+  // eslint-disable-next-line no-unused-vars
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+      ],
+      datasets: [{
+        data: [
+          15339,
+          21345,
+          18483,
+          24003,
+          23489,
+          24092,
+          12034
+        ],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      },
+      legend: {
+        display: false
+      }
+    }
+  })
+})()
