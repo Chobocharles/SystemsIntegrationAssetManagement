@@ -69,3 +69,16 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.search-dropdown {
+    display: none;
+    position: absolute;
+    top: 48px;
+    overflow-y: hidden;
+    width: 25%;
+    z-index: 999999;
+    background-color: white;
+    -webkit-box-shadow: 0 20px 40px 0 rgba(0,0,0,.4) !important;
+    box-shadow: 0 20px 40px 0 rgba(0,0,0,.4) !important;
+    border-radius: .25rem !important;
+}
