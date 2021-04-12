@@ -31,5 +31,9 @@ namespace Asset_Management.Models.SQL
         [Column(TypeName = "date")]
         [Display(Name = "Service Date")]
         public DateTime? ServiceDate { get; set; }
+
+        [ForeignKey(nameof(AssetId))]
+        [InverseProperty("ServiceRecord")]
+        public virtual Asset Asset { get; set; }
     }
 }

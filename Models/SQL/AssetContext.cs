@@ -38,6 +38,10 @@ namespace Asset_Management.Models.SQL
         {
             modelBuilder.Entity<Asset>(entity =>
             {
+                entity.Property(e => e.PictureContentType).IsUnicode(false);
+
+                entity.Property(e => e.PictureSourceFileName).IsUnicode(false);
+
                 entity.HasOne(d => d.AssetType)
                     .WithMany(p => p.Asset)
                     .HasForeignKey(d => d.AssetTypeId)
@@ -61,6 +65,26 @@ namespace Asset_Management.Models.SQL
                     .HasForeignKey(d => d.LocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_LocationID");
+            });
+
+            modelBuilder.Entity<Contact>(entity =>
+            {
+                entity.Property(e => e.DisplayName)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('Empty')");
+
+                entity.Property(e => e.PictureContentType).IsUnicode(false);
+
+                entity.Property(e => e.PictureSourceFileName).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ServiceRecord>(entity =>
+            {
+                entity.HasOne(d => d.Asset)
+                    .WithMany(p => p.ServiceRecord)
+                    .HasForeignKey(d => d.AssetId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_AssetID");
             });
 
             OnModelCreatingPartial(modelBuilder);

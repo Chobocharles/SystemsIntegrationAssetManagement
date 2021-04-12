@@ -11,12 +11,17 @@ namespace Asset_Management.Models.SQL
 {
     public partial class Asset
     {
+        public Asset()
+        {
+            ServiceRecord = new HashSet<ServiceRecord>();
+        }
+
         [Key]
         [Column("AssetID")]
         public int AssetId { get; set; }
         [Required]
         [Column("AssetTypeID")]
-        [Display(Name = "Asset Type ID*")]
+        [Display(Name = "Asset Type*")]
         public int AssetTypeId { get; set; }
         [StringLength(255)]
         public string Description { get; set; }
@@ -88,5 +93,7 @@ namespace Asset_Management.Models.SQL
         [ForeignKey(nameof(LocationId))]
         [InverseProperty("Asset")]
         public virtual Location Location { get; set; }
+        [InverseProperty("Asset")]
+        public virtual ICollection<ServiceRecord> ServiceRecord { get; set; }
     }
 }
