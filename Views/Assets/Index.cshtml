@@ -83,84 +83,85 @@
             @foreach (var item in Model)
             {
             <tr>
-                    <td>
-                        @if (item.Picture != null)
-                        {
-                            var base64 = Convert.ToBase64String(item.Picture);
-                            var imgSrc = String.Format("data:{0};base64,{1}", item.PictureContentType, base64);
-                            <img src="@imgSrc" style="width: 100px; height: 100px;" />
-                        }
-			else
-                    	{
-                        	<span>No Image</span>
-                    	}
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AcquiredDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PurchasePrice)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CurrentValue)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Brand)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Model)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Comments)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RetiredDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AssetTagNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SerialNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ServiceTag)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.WarrantyExpires)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DeviceId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Verified)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateVerified)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.WorkCenter)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AssetType.AssetType1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Condition.Condition1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Contact.DisplayName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Location.Location1)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.AssetId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.AssetId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.AssetId">Delete</a>
-                    </td>
-                </tr>
+                <td>
+                    @if (item.Picture != null)
+                    {
+                        var base64 = Convert.ToBase64String(item.Picture);
+                        var imgSrc = String.Format("data:{0};base64,{1}", item.PictureContentType, base64);
+                        <img src="@imgSrc" style="width: 100px; height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AcquiredDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchasePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RetiredDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssetTagNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceTag)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WarrantyExpires)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeviceId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verified)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateVerified)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkCenter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssetType.AssetType1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Condition.Condition1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contact.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.Location1)
+                </td>
+
+                <td style="" class="">
+                    <a class="index-btn btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.AssetId">Edit</a>
+                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.AssetId">Details</a>
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.AssetId">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
