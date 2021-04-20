@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Contacts";
+
+    var _configuration = ViewBag.config;
 }
 
 <h1>Contacts</h1>
@@ -85,9 +87,13 @@
                 </td>
 
                 <td style="" class="">
-                    <a class="index-btn btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ContactId">Edit</a> 
-                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ContactId">Details</a> 
-                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ContactId">Delete</a>
+                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ContactId">Details</a>
+                    @if (User.IsInRole(_configuration))
+                    {
+                        <a class="index-btn btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ContactId">Edit</a>
+
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ContactId">Delete</a>
+                    }
                 </td>
             </tr>
             }

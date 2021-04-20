@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Asset_Management.Models.SQL;
+using Microsoft.Extensions.Configuration;
 
 namespace Asset_Management.Controllers
 {
@@ -13,14 +14,20 @@ namespace Asset_Management.Controllers
     {
         private readonly AssetContext _context;
 
-        public AssetTypesController(AssetContext context)
+        private readonly IConfiguration _configuration;
+
+        public AssetTypesController(AssetContext context, IConfiguration configuration)
         {
             _context = context;
+
+            _configuration = configuration;
         }
 
         // GET: AssetTypes
         public async Task<IActionResult> Index()
         {
+            ViewData["config"] = _configuration["AzureAd:Roles:ReadWrite"];
+
             return View(await _context.AssetType.ToListAsync());
         }
 
@@ -45,6 +52,11 @@ namespace Asset_Management.Controllers
         // GET: AssetTypes/Create
         public IActionResult Create()
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             return View();
         }
 
@@ -67,6 +79,11 @@ namespace Asset_Management.Controllers
         // GET: AssetTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -118,6 +135,11 @@ namespace Asset_Management.Controllers
         // GET: AssetTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             if (id == null)
             {
                 return NotFound();

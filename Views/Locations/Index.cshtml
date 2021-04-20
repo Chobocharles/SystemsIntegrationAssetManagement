@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    var _configuration = ViewBag.config;
 }
 
 <h1>Index</h1>
@@ -25,9 +27,13 @@
                 @Html.DisplayFor(modelItem => item.Location1)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.LocationId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.LocationId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LocationId">Delete</a>
+                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.LocationId">Details</a>
+                @if (User.IsInRole(_configuration))
+                {
+                    <a class="index-btn btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.LocationId">Edit</a>
+
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.LocationId">Delete</a>
+                }
             </td>
         </tr>
 }

@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using Asset_Management.Models;
 using Asset_Management.Models.LDAP;
+using Microsoft.Extensions.Configuration;
 
 namespace Asset_Management.Controllers
 {
@@ -20,16 +21,22 @@ namespace Asset_Management.Controllers
 
         private readonly User _user;
 
-        public ContactsController(AssetContext context, User user)
+        private readonly IConfiguration _configuration;
+
+        public ContactsController(AssetContext context, User user, IConfiguration configuration)
         {
             _context = context;
 
             _user = user;
+
+            _configuration = configuration;
         }
 
         // GET: Contacts
         public async Task<IActionResult> Index()
         {
+            ViewData["config"] = _configuration["AzureAd:Roles:ReadWrite"];
+
             return View(await _context.Contact.ToListAsync());
         }
 
@@ -54,6 +61,11 @@ namespace Asset_Management.Controllers
         // GET: Contacts/Create
         public IActionResult Create()
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             return View();
         }
 
@@ -97,6 +109,11 @@ namespace Asset_Management.Controllers
         // GET: Contacts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -168,6 +185,11 @@ namespace Asset_Management.Controllers
         // GET: Contacts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             if (id == null)
             {
                 return NotFound();

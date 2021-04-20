@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Asset_Management.Models.SQL;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace Asset_Management.Controllers
 {
@@ -15,14 +16,20 @@ namespace Asset_Management.Controllers
     {
         private readonly AssetContext _context;
 
-        public AssetsController(AssetContext context)
+        private readonly IConfiguration _configuration;
+
+        public AssetsController(AssetContext context, IConfiguration configuration)
         {
             _context = context;
+
+            _configuration = configuration;
         }
 
         // GET: Assets
         public async Task<IActionResult> Index()
         {
+            ViewData["config"] = _configuration["AzureAd:Roles:ReadWrite"];
+
             var assetContext = _context.Asset.Include(a => a.AssetType).Include(a => a.Condition).Include(a => a.Contact).Include(a => a.Location).Include(a => a.ServiceRecord);
             return View(await assetContext.ToListAsync());
         }
@@ -53,6 +60,11 @@ namespace Asset_Management.Controllers
         // GET: Assets/Create
         public IActionResult Create()
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             ViewData["AssetType"] = new SelectList(_context.AssetType, "AssetTypeId", "AssetType1");
             ViewData["Condition"] = new SelectList(_context.Condition, "ConditionId", "Condition1");
             ViewData["Contact"] = new SelectList(_context.Contact, "ContactId", "DisplayName");
@@ -90,6 +102,11 @@ namespace Asset_Management.Controllers
         // GET: Assets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -167,6 +184,11 @@ namespace Asset_Management.Controllers
         // GET: Assets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (User.IsInRole(_configuration["AzureAd:Roles:ReadOnly"]))
+            {
+                return View("Unauthorized");
+            }
+
             if (id == null)
             {
                 return NotFound();

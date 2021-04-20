@@ -2,8 +2,8 @@
 using Asset_Management.Models.SQL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,11 +18,15 @@ namespace Asset_Management.Controllers
 
         private readonly AssetContext _context;
 
-        public HomeController(ILogger<HomeController> logger, AssetContext context)
+        private readonly IConfiguration _configuration;
+
+        public HomeController(ILogger<HomeController> logger, AssetContext context, IConfiguration configuration)
         {
             _context = context;
         
             _logger = logger;
+
+            _configuration = configuration;
         }
 
         public IActionResult Index()
