@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Http;
 using Asset_Management.Models;
 using Asset_Management.Models.LDAP;
 using Microsoft.Extensions.Configuration;
+using CsvHelper.Configuration;
+using System.Globalization;
+using CsvHelper;
 
 namespace Asset_Management.Controllers
 {
@@ -32,12 +35,95 @@ namespace Asset_Management.Controllers
             _configuration = configuration;
         }
 
+        public byte[] WriteCsvToMemory(dynamic records)
+        {
+            using (var memoryStream = new MemoryStream())
+            using (var streamWriter = new StreamWriter(memoryStream))
+            using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+            {
+                csvWriter.Context.RegisterClassMap<ContactMap>();
+                csvWriter.WriteRecords(records);
+                streamWriter.Flush();
+                return memoryStream.ToArray();
+            }
+        }
+
+
+        public sealed class ContactMap : ClassMap<Contact>
+        {
+            public ContactMap()
+            {
+                AutoMap(CultureInfo.InvariantCulture);
+                Map(m => m.Asset).Ignore();
+                Map(m => m.Picture).Ignore();
+                Map(m => m.PictureContentType).Ignore();
+            }
+        }
+
         // GET: Contacts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? pageNumber,
+    bool export)
         {
             ViewData["config"] = _configuration["AzureAd:Roles:ReadWrite"];
 
-            return View(await _context.Contact.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+
+            IQueryable<Contact> contactsIQ = _context.Contact;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                contactsIQ = contactsIQ.Where(a => a.Address.Contains(searchString) ||
+                                a.BusinessPhone.Contains(searchString) ||
+                                a.City.Contains(searchString) ||
+                                a.Company.Contains(searchString) ||
+                                a.Country.Contains(searchString) ||
+                                a.DisplayName.Contains(searchString) ||
+                                a.EmailAddress.Contains(searchString) ||
+                                a.FirstName.Contains(searchString) ||
+                                a.JobTitle.Contains(searchString) ||
+                                a.LastName.Contains(searchString) ||
+                                a.Province.Contains(searchString) ||
+                                a.State.Contains(searchString) ||
+                                a.ZipCode.Contains(searchString) ||
+                                a.ContactId.Equals(searchString)
+                            );
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    contactsIQ = contactsIQ.OrderByDescending(s => s.LastName);
+                    break;
+                default:
+                    contactsIQ = contactsIQ.OrderBy(s => s.LastName);
+                    break;
+            }
+
+            if (export)
+            {
+                var result = WriteCsvToMemory(await contactsIQ.AsNoTracking().ToListAsync());
+                var memoryStream = new MemoryStream(result);
+                return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export_contacts_" + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss") + ".csv" };
+            }
+
+            int pageSize = 10;
+
+            return View(await PaginatedList<Contact>.CreateAsync(contactsIQ.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Contacts/Details/5

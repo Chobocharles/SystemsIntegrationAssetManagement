@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Asset_Management.Models.SQL;
 using Microsoft.Extensions.Configuration;
+using Asset_Management.Models;
+using CsvHelper;
+using System.IO;
+using System.Globalization;
+using CsvHelper.Configuration;
 
 namespace Asset_Management.Controllers
 {
@@ -23,12 +28,87 @@ namespace Asset_Management.Controllers
             _configuration = configuration;
         }
 
+        public byte[] WriteCsvToMemory(dynamic records)
+        {
+            using (var memoryStream = new MemoryStream())
+            using (var streamWriter = new StreamWriter(memoryStream))
+            using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+            {
+                csvWriter.Context.RegisterClassMap<ServiceRecordMap>();
+                csvWriter.WriteRecords(records);
+                streamWriter.Flush();
+                return memoryStream.ToArray();
+            }
+        }
+
+
+        public sealed class ServiceRecordMap : ClassMap<ServiceRecord>
+        {
+            public ServiceRecordMap()
+            {
+                AutoMap(CultureInfo.InvariantCulture);
+                Map(m => m.Asset).Ignore();
+                Map(m => m.Asset.Picture).Ignore();
+                Map(m => m.Asset.PictureContentType).Ignore();
+                Map(m => m.Asset.Contact.Picture).Ignore();
+                Map(m => m.Asset.Contact.PictureContentType).Ignore();
+            }
+        }
+
+
         // GET: ServiceRecords
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? pageNumber,
+    bool export)
         {
             ViewData["config"] = _configuration["AzureAd:Roles:ReadWrite"];
 
-            return View(await _context.ServiceRecord.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+
+            ViewData["Export"] = export;
+
+            IQueryable<ServiceRecord> serviceRecordIQ = _context.ServiceRecord;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                serviceRecordIQ = serviceRecordIQ.Where(a => a.AssetId.Equals(searchString) ||
+                                a.DeviceName.Contains(searchString) ||
+                                a.PartsReplaced.Contains(searchString) ||
+                                a.Problem.Equals(searchString) ||
+                                a.ServiceRecordId.Equals(searchString)
+                            );
+            }
+
+            serviceRecordIQ = sortOrder switch
+            {
+                "name_desc" => serviceRecordIQ.OrderByDescending(s => s.AssetId),
+                _ => serviceRecordIQ.OrderBy(s => s.AssetId),
+            };
+
+            if (export)
+            {
+                var result = WriteCsvToMemory(await serviceRecordIQ.AsNoTracking().ToListAsync());
+                var memoryStream = new MemoryStream(result);
+                return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export_service_records_" + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss") + ".csv" };
+            }
+
+            int pageSize = 10;
+
+            return View(await PaginatedList<ServiceRecord>.CreateAsync(serviceRecordIQ.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: ServiceRecords/Details/5

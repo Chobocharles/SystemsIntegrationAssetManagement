@@ -9,6 +9,10 @@ using Asset_Management.Models.SQL;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Asset_Management.Models;
+using CsvHelper.Configuration;
+using CsvHelper;
+using System.Globalization;
 
 namespace Asset_Management.Controllers
 {
@@ -25,14 +29,101 @@ namespace Asset_Management.Controllers
             _configuration = configuration;
         }
 
+        public byte[] WriteCsvToMemory(dynamic records)
+        {
+            using (var memoryStream = new MemoryStream())
+            using (var streamWriter = new StreamWriter(memoryStream))
+            using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+            {
+                csvWriter.Context.RegisterClassMap<AssetdMap>();
+                csvWriter.WriteRecords(records);
+                streamWriter.Flush();
+                return memoryStream.ToArray();
+            }
+        }
+
+
+        public sealed class AssetdMap : ClassMap<Asset>
+        {
+            public AssetdMap()
+            {
+                AutoMap(CultureInfo.InvariantCulture);
+                Map(m => m.Picture).Ignore();
+                Map(m => m.PictureContentType).Ignore();
+                Map(m => m.Contact.Picture).Ignore();
+                Map(m => m.Contact.PictureContentType).Ignore();
+            }
+        }
+
         // GET: Assets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? pageNumber,
+    bool export)
         {
             ViewData["config"] = _configuration["AzureAd:Roles:ReadWrite"];
 
-            var assetContext = _context.Asset.Include(a => a.AssetType).Include(a => a.Condition).Include(a => a.Contact).Include(a => a.Location).Include(a => a.ServiceRecord);
-            return View(await assetContext.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+
+            IQueryable<Asset> assetsIQ = _context.Asset.Include(a => a.AssetType).Include(a => a.Condition).Include(a => a.Contact).Include(a => a.Location).Include(a => a.ServiceRecord);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                assetsIQ = assetsIQ.Where(a => a.AssetId.Equals(searchString) ||
+                                a.AssetTagNumber.Equals(searchString) ||
+                                a.Brand.Contains(searchString) ||
+                                a.Condition.Condition1.Contains(searchString) ||
+                                a.Contact.DisplayName.Contains(searchString) ||
+                                a.DeviceId.Contains(searchString) ||
+                                a.Location.Location1.Contains(searchString) ||
+                                a.Model.Contains(searchString) ||
+                                a.SerialNumber.Contains(searchString) ||
+                                a.ServiceTag.Contains(searchString) ||
+                                a.WorkCenter.Contains(searchString) ||
+                                a.Contact.DisplayName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    assetsIQ = assetsIQ.OrderByDescending(s => s.AssetTagNumber);
+                    break;
+                case "Date":
+                    assetsIQ = assetsIQ.OrderBy(s => s.DateVerified);
+                    break;
+                case "date_desc":
+                    assetsIQ = assetsIQ.OrderByDescending(s => s.DateVerified);
+                    break;
+                default:
+                    assetsIQ = assetsIQ.OrderBy(s => s.AssetTagNumber);
+                    break;
+            }
+
+            if (export)
+            {
+                var result = WriteCsvToMemory(await assetsIQ.AsNoTracking().ToListAsync());
+                var memoryStream = new MemoryStream(result);
+                return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export_assets_" + DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss") + ".csv" };
+            }
+
+            int pageSize = 10;
+            
+            return View(await PaginatedList<Asset>.CreateAsync(assetsIQ.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
 
         // GET: Assets/Details/5
         public async Task<IActionResult> Details(int? id)
