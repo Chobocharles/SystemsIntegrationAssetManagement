@@ -53,10 +53,27 @@ namespace Asset_Management.Controllers
         {
             public ContactMap()
             {
-                AutoMap(CultureInfo.InvariantCulture);
-                Map(m => m.Asset).Ignore();
-                Map(m => m.Picture).Ignore();
-                Map(m => m.PictureContentType).Ignore();
+                Map(m => m.ContactId).Name("Contact ID");
+                Map(m => m.Company).Name("Company");
+                Map(m => m.DisplayName).Name("Display Name");
+                Map(m => m.FirstName).Name("First Name");
+                Map(m => m.LastName).Name("Last Name");
+                Map(m => m.EmailAddress).Name("Email Address");
+                Map(m => m.JobTitle).Name("Job Title");
+                Map(m => m.BusinessPhone).Name("Business Phone");
+                Map(m => m.Extension).Name("Extension");
+                Map(m => m.HomePhone).Name("Home Phone");
+                Map(m => m.MobilePhone).Name("Mobile Phone");
+                Map(m => m.FaxNumber).Name("Fax Number");
+                Map(m => m.Address).Name("Address");
+                Map(m => m.City).Name("City");
+                Map(m => m.State).Name("State");
+                Map(m => m.Province).Name("Province");
+                Map(m => m.ZipCode).Name("ZipCode");
+                Map(m => m.Country).Name("Country");
+                Map(m => m.WebPage).Name("WebPage");
+                Map(m => m.Notes).Name("Notes");
+                Map(m => m.PictureSourceFileName).Name("PictureSourceFileName");
             }
         }
 

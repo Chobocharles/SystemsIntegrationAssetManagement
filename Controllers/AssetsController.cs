@@ -47,11 +47,28 @@ namespace Asset_Management.Controllers
         {
             public AssetdMap()
             {
-                AutoMap(CultureInfo.InvariantCulture);
-                Map(m => m.Picture).Ignore();
-                Map(m => m.PictureContentType).Ignore();
-                Map(m => m.Contact.Picture).Ignore();
-                Map(m => m.Contact.PictureContentType).Ignore();
+                Map(m => m.AssetId).Name("Asset ID");
+                Map(m => m.AssetType.AssetType1).Name("Asset Type");
+                Map(m => m.Description).Name("Description");
+                Map(m => m.Condition.Condition1).Name("Condition");
+                Map(m => m.AcquiredDate).Name("Acquired Date");
+                Map(m => m.PurchasePrice).Name("Purchase Price");
+                Map(m => m.CurrentValue).Name("Current Value");
+                Map(m => m.Location.Location1).Name("Location");
+                Map(m => m.Brand).Name("Brand");
+                Map(m => m.Model).Name("Model");
+                Map(m => m.Comments).Name("Comments");
+                Map(m => m.Contact.DisplayName).Name("Assigned Contact");
+                Map(m => m.RetiredDate).Name("Retired Date");
+                Map(m => m.AssetTagNumber).Name("Asset Tag Number");
+                Map(m => m.SerialNumber).Name("Serial Number");
+                Map(m => m.ServiceTag).Name("Service Tag");
+                Map(m => m.WarrantyExpires).Name("Warranty Expires");
+                Map(m => m.DeviceId).Name("Device ID");
+                Map(m => m.Verified).Name("Is Verified");
+                Map(m => m.DateVerified).Name("Verified Date");
+                Map(m => m.WorkCenter).Name("WorkCenter");
+                Map(m => m.PictureSourceFileName).Name("Picture Source FileName");
             }
         }
 

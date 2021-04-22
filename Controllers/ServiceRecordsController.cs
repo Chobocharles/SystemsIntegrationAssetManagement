@@ -46,12 +46,14 @@ namespace Asset_Management.Controllers
         {
             public ServiceRecordMap()
             {
-                AutoMap(CultureInfo.InvariantCulture);
-                Map(m => m.Asset).Ignore();
-                Map(m => m.Asset.Picture).Ignore();
-                Map(m => m.Asset.PictureContentType).Ignore();
-                Map(m => m.Asset.Contact.Picture).Ignore();
-                Map(m => m.Asset.Contact.PictureContentType).Ignore();
+                Map(m => m.AssetId).Name("Asset ID");
+                Map(m => m.Asset.AssetTagNumber).Name("Asset Tag Number");
+                Map(m => m.Problem).Name("Problem");
+                Map(m => m.PartsReplaced).Name("Parts Replaced");
+                Map(m => m.DescriptionOfWork).Name("Description Of Work");
+                Map(m => m.DeviceName).Name("Device Name");
+                Map(m => m.ServiceDate).Name("ServiceDate");
+                Map(m => m.ServiceRecordId).Name("Service Record ID");
             }
         }
 
