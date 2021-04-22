@@ -29,6 +29,8 @@ namespace Asset_Management.Models.LDAP
         public string BadPasswordTime { get; set; }
         public string BadPwdCount { get; set; }
         public string CanonicalName { get; set; }
+        public string Company { get; set; }
+        public string Department { get; set; }
         public List<string> DirectReports { get; } = new List<string>();
         public string DisplayName { get; set; }
         public string DistinguishedName { get; set; }
@@ -40,6 +42,7 @@ namespace Asset_Management.Models.LDAP
         public string Mail { get; set; }
         public List<string> ManagedObjects { get; } = new List<string>();
         public List<string> MemberOf { get; } = new List<string>();
+        public string Mobile { get; set; }
         public string PasswordAge { get; set; }
         public string PasswordNeverExpires { get; set; }
         public List<string> PublicDelegatesBl { get; } = new List<string>();
@@ -47,6 +50,8 @@ namespace Asset_Management.Models.LDAP
         public string SamAccountName { get; set; }
         public string ScriptPath { get; set; }
         public string Sn { get; set; }
+        public string TelephoneNumber { get; set; }
+        public string Title { get; set; }
         public string Uid { get; set; }
         public string UserAccountControl { get; set; }
         public string UserPrincipalName { get; set; }
@@ -110,9 +115,11 @@ namespace Asset_Management.Models.LDAP
                         "BadPasswordTime",
                         "BadPwdCount",
                         "CanonicalName",
+                        "Company",
                         "DirectReports",
                         "DisplayName",
                         "DistinguishedName",
+                        "Department",
                         "GivenName",
                         "HomeDirectory",
                         "Initials",
@@ -120,6 +127,7 @@ namespace Asset_Management.Models.LDAP
                         "LastLogonTimestamp",
                         "Mail",
                         "ManagedObjects",
+                        "Mobile",
                         "MemberOf",
                         "PasswordAge",
                         "PublicDelegatesBl",
@@ -127,6 +135,8 @@ namespace Asset_Management.Models.LDAP
                         "SamAccountName",
                         "ScriptPath",
                         "Sn",
+                        "telephoneNumber",
+                        "title",
                         "Uid",
                         "UserAccountControl",
                         "UserPrincipalName",
@@ -167,6 +177,51 @@ namespace Asset_Management.Models.LDAP
                         else
                         {
                             attributes.CanonicalName = "N/A";
+                        }
+
+                        if (result.Properties.Contains("Company"))
+                        {
+                            attributes.Company = result.Properties["Company"][0].ToString();
+                        }
+                        else
+                        {
+                            attributes.Company = "N/A";
+                        }
+
+                        if (result.Properties.Contains("Department"))
+                        {
+                            attributes.Department = result.Properties["Department"][0].ToString();
+                        }
+                        else
+                        {
+                            attributes.Department = "N/A";
+                        }
+
+                        if (result.Properties.Contains("Mobile"))
+                        {
+                            attributes.Mobile = result.Properties["Mobile"][0].ToString();
+                        }
+                        else
+                        {
+                            attributes.Mobile = "N/A";
+                        }
+
+                        if (result.Properties.Contains("TelephoneNumber"))
+                        {
+                            attributes.TelephoneNumber = result.Properties["TelephoneNumber"][0].ToString();
+                        }
+                        else
+                        {
+                            attributes.TelephoneNumber = "N/A";
+                        }
+
+                        if (result.Properties.Contains("Title"))
+                        {
+                            attributes.Title = result.Properties["Title"][0].ToString();
+                        }
+                        else
+                        {
+                            attributes.Title = "N/A";
                         }
 
                         if (result.Properties.Contains("DirectReports"))
