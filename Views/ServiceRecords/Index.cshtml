@@ -1,71 +1,117 @@
-﻿@model IEnumerable<Asset_Management.Models.SQL.ServiceRecord>
+﻿@model PaginatedList<Asset_Management.Models.SQL.ServiceRecord>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Service Records";
 
     var _configuration = ViewBag.config;
 }
 
-<h1>Index</h1>
+<h1>Service Records</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="input-group mb-3">
+        <input type="text" placeholder="Enter a term to search" aria-label="Enter a term to search" aria-describedby="basic-addon2" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" />
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+        <div class="input-group-append">
+            <a class="input-group-text" asp-action="Index">Back to Full List</a>
+        </div>
+        <div class="input-group-append">
+            <a class="input-group-text" asp-action="Index"
+               asp-route-export="true"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                Export Full List
+            </a>
+        </div>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AssetId)
+                Asset ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Problem)
+                Problem
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PartsReplaced)
+                Parts Replaced
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DescriptionOfWork)
+                Description Of Work
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DeviceName)
+                Device Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ServiceDate)
+                ServiceDate
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AssetId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Problem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartsReplaced)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescriptionOfWork)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeviceName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceDate)
-            </td>
-            <td>
-                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ServiceRecordId">Details</a>
-                @if (User.IsInRole(_configuration))
-                {
-                    <a class="index-btn btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ServiceRecordId">Edit</a>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.AssetId">
+                        @Html.DisplayFor(modelItem => item.AssetId)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Problem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartsReplaced)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionOfWork)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeviceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServiceDate)
+                </td>
+                <td>
+                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ServiceRecordId">Details</a>
+                    @if (User.IsInRole(_configuration))
+                    {
+                        <a class="index-btn btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ServiceRecordId">Edit</a>
 
-                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ServiceRecordId">Delete</a>
-                }
-            </td>
-        </tr>
-}
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ServiceRecordId">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
+
+
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-outline-dark @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-outline-dark @nextDisabled">
+    Next
+</a>

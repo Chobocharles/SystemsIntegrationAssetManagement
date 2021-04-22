@@ -149,7 +149,12 @@
                         <p class="card-text">
                             First Name: <span id="cardFN"></span><br />
                             Last Name: <span id="cardLN"></span><br />
-                            Email: <span id="cardEmail"></span>
+                            Title: <span id="cardTitle"></span><br />
+                            Department: <span id="cardDept"></span><br />
+                            Email: <span id="cardEmail"></span><br />
+                            Company: <span id="cardCompany"></span><br />
+                            Mobile: <span id="cardMobile"></span><br />
+                            Telephone: <span id="cardTele"></span>
                         </p>
                         <button type="button" class="btn btn-primary" id="populateButton" onclick="populate(); return false;">Populate Contact</button>
                     </div>
@@ -174,14 +179,31 @@
             var fnspan = document.getElementById("cardFN");
             var lnspan = document.getElementById("cardLN");
             var emailspan = document.getElementById("cardEmail");
+            var titlespan = document.getElementById("cardTitle");
+            var companyspan = document.getElementById("cardCompany");
+            var deptspan = document.getElementById("cardDept");
+            var mobilespan = document.getElementById("cardMobile");
+            var telespan = document.getElementById("cardTele");
 
             var contactFN = document.getElementById("Contact_FirstName");
             var contactLN = document.getElementById("Contact_LastName");
-            var contactEmal = document.getElementById("Contact_EmailAddress");
+            var contactEmail = document.getElementById("Contact_EmailAddress");
+
+            var contactTitle = document.getElementById("Contact_JobTitle");
+            var contactCompany = document.getElementById("Contact_Company");
+            var contactDept = document.getElementById("Contact_Notes");
+            var contactMobile = document.getElementById("Contact_MobilePhone");
+            var contactTele = document.getElementById("Contact_BusinessPhone");
+
 
             contactFN.value = fnspan.textContent;
             contactLN.value = lnspan.textContent;
-            contactEmal.value = emailspan.textContent;
+            contactEmail.value = emailspan.textContent;
+            contactTitle.value = titlespan.textContent;
+            contactCompany.value = companyspan.textContent;
+            contactDept.value = deptspan.textContent;
+            contactMobile.value = mobilespan.textContent;
+            contactTele.value = telespan.textContent;
         }
 
         function search(form) {
@@ -209,7 +231,12 @@
                             $('#cardDisplayName').text(data['data']['displayName']);
                             $('#cardFN').text(data['data']['givenName']);
                             $('#cardLN').text(data['data']['sn']);
+                            $('#cardTitle').text(data['data']['title']);
                             $('#cardEmail').text(data['data']['mail']);
+                            $('#cardCompany').text(data['data']['company']);
+                            $('#cardDept').text(data['data']['department']);
+                            $('#cardMobile').text(data['data']['mobile']);
+                            $('#cardTele').text(data['data']['telephoneNumber']);
 
                             $('#populateButton').prop("disabled", !data['data']['accountEnabled']);
                             $('#resultObject').show();

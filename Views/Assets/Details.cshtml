@@ -190,9 +190,9 @@
                                     @Html.DisplayFor(modelItem => item.ServiceDate)
                                 </td>
                                 <td>
-                                    <a asp-controller="ServiceRecords" asp-action="Edit" asp-route-id="@item.AssetId">Edit</a> |
-                                    <a asp-controller="ServiceRecords" asp-action="Details" asp-route-id="@item.AssetId">Details</a> |
-                                    <a asp-controller="ServiceRecords" asp-action="Delete" asp-route-id="@item.AssetId">Delete</a>
+                                    <a asp-controller="ServiceRecords" asp-action="Edit" asp-route-id="@item.ServiceRecordId">Edit</a> |
+                                    <a asp-controller="ServiceRecords" asp-action="Details" asp-route-id="@item.ServiceRecordId">Details</a> |
+                                    <a asp-controller="ServiceRecords" asp-action="Delete" asp-route-id="@item.ServiceRecordId">Delete</a>
                                 </td>
                             </tr>
                         }
@@ -200,7 +200,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="6">
-                                <a asp-controller="ServiceRecords" asp-action="Create" asp-route-id="@Model.AssetId">Create</a>
+                                <a asp-controller="ServiceRecords" asp-action="Create">Create</a>
                             </td>
                         </tr>
                     </tfoot>

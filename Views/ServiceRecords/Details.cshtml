@@ -7,14 +7,16 @@
 <h1>Details</h1>
 
 <div>
-    <h4>ServiceRecord</h4>
+    <h4>Service Record</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AssetId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssetId)
+            <a asp-controller="Assets" asp-action="Details" asp-route-id="@Model.AssetId">
+                @Html.DisplayFor(model => model.AssetId)
+            </a>
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Problem)
