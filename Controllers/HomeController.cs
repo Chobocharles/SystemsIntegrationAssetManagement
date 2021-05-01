@@ -29,9 +29,18 @@ namespace Asset_Management.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            IQueryable<Asset> assets = _context.Asset;
+            IQueryable<Contact> contacts = _context.Contact;
+
+            var retVal = new HomeViewModel
+            {
+                AssetCount = assets.Count(),
+                ContactCount = contacts.Count()
+            };
+
+            return View(retVal);
         }
 
         public IActionResult Assets()

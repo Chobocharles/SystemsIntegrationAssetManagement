@@ -1,9 +1,35 @@
-﻿@{
+﻿@model Asset_Management.Models.HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Dashboard</h1>
-    
+
+</div>
+
+<div class="card-deck">
+    <div class="card border-secondary" >
+        <div class="card-img" style="text-align: center; margin: 3em 0em;"><i class="fas fa-user-friends fa-6x"></i></div>
+        <div class="card-body">
+            <h5 class="card-title">Contacts</h5>
+            <p class="card-text">Total Contacts: @Model.ContactCount</p>
+        </div>
+        <div class="card-body">
+            <a class="btn btn-info" asp-controller="Contacts" asp-action="Index">List</a>
+            <a class="btn btn-primary" asp-controller="Contacts" asp-action="Create">Create</a>
+        </div>
+    </div>
+    <div class="card border-secondary">
+        <div class="card-img" style="text-align: center; margin: 3em 0em;"><i class="fas fa-laptop fa-6x"></i></div>
+        <div class="card-body">
+            <h5 class="card-title">Assets</h5>
+            <p class="card-text">Total Assets: @Model.AssetCount</p>
+        </div>
+        <div class="card-body">
+            <a class="btn btn-info" asp-controller="Assets" asp-action="Index">List</a>
+            <a class="btn btn-primary" asp-controller="Assets" asp-action="Create">Create</a>
+        </div>
+    </div>
 </div>

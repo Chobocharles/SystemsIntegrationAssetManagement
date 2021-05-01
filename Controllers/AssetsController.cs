@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Asset_Management.Models;
+using Asset_Management.Models.SQL;
+using CsvHelper;
+using CsvHelper.Configuration;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Asset_Management.Models.SQL;
-using Microsoft.AspNetCore.Http;
-using System.IO;
 using Microsoft.Extensions.Configuration;
-using Asset_Management.Models;
-using CsvHelper.Configuration;
-using CsvHelper;
+using System;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Asset_Management.Controllers
 {
@@ -41,7 +40,6 @@ namespace Asset_Management.Controllers
                 return memoryStream.ToArray();
             }
         }
-
 
         public sealed class AssetdMap : ClassMap<Asset>
         {
@@ -113,21 +111,13 @@ namespace Asset_Management.Controllers
                                 a.Contact.DisplayName.Contains(searchString));
             }
 
-            switch (sortOrder)
+            assetsIQ = sortOrder switch
             {
-                case "name_desc":
-                    assetsIQ = assetsIQ.OrderByDescending(s => s.AssetTagNumber);
-                    break;
-                case "Date":
-                    assetsIQ = assetsIQ.OrderBy(s => s.DateVerified);
-                    break;
-                case "date_desc":
-                    assetsIQ = assetsIQ.OrderByDescending(s => s.DateVerified);
-                    break;
-                default:
-                    assetsIQ = assetsIQ.OrderBy(s => s.AssetTagNumber);
-                    break;
-            }
+                "name_desc" => assetsIQ.OrderByDescending(s => s.AssetTagNumber),
+                "Date" => assetsIQ.OrderBy(s => s.DateVerified),
+                "date_desc" => assetsIQ.OrderByDescending(s => s.DateVerified),
+                _ => assetsIQ.OrderBy(s => s.AssetTagNumber),
+            };
 
             if (export)
             {

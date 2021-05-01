@@ -3,8 +3,7 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-<div class="container-fluid">
-
+<div class="container-fluid" style="padding:unset;">
     <form asp-controller="Home" asp-action="Search" enctype="multipart/form-data" style="width:100%" onsubmit="searchMain(this); return false;">
         <div class="input-group">
             <input asp-for="Search" class="form-control form-control-dark" type="text" style="height: 100%;" placeholder="Search" aria-label="Search" tabindex="1">
