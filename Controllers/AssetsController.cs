@@ -311,7 +311,14 @@ namespace Asset_Management.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var serviceRecords = _context.ServiceRecord.FirstOrDefault(m => m.AssetId.Equals(id));
+            if(serviceRecords != null)
+            {
+                _context.ServiceRecord.RemoveRange(serviceRecords);
+            }
+
             var asset = await _context.Asset.FindAsync(id);
+
             _context.Asset.Remove(asset);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

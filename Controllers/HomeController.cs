@@ -2,6 +2,7 @@
 using Asset_Management.Models.SQL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace Asset_Management.Controllers
                                 a.Province.Contains(searchData.Search) ||
                                 a.State.Contains(searchData.Search) ||
                                 a.ZipCode.Contains(searchData.Search) ||
-                                a.ContactId.Equals(searchData.Search)
+                                a.ContactId.ToString().Contains(searchData.Search)
                             )
                             .Select(e => new SearchResponse
                             {
@@ -102,8 +103,8 @@ namespace Asset_Management.Controllers
                         searchResults.AddRange(contacts);
                         break;
                     case 1: //Assets
-                        var assets = _context.Asset.Where(a => a.AssetId.Equals(searchData.Search) || 
-                                a.AssetTagNumber.Equals(searchData.Search) ||
+                        var assets = _context.Asset.Where(a => a.AssetId.ToString().Contains(searchData.Search) || 
+                                a.AssetTagNumber.ToString().Contains(searchData.Search) ||
                                 a.Brand.Contains(searchData.Search) ||
                                 a.Condition.Condition1.Contains(searchData.Search) ||                           
                                 a.Contact.DisplayName.Contains(searchData.Search) ||
@@ -126,7 +127,7 @@ namespace Asset_Management.Controllers
                         break;
                     case 2: //Asset Types
                         var assetTypes = _context.AssetType.Where(a => a.AssetType1.Contains(searchData.Search) ||
-                                a.AssetTypeId.Equals(searchData.Search)
+                                a.AssetTypeId.ToString().Contains(searchData.Search)
                             )
                             .Select(e => new SearchResponse
                             {
@@ -139,7 +140,7 @@ namespace Asset_Management.Controllers
                         break;
                     case 3: //Locations
                         var locations = _context.Location.Where(a => a.Location1.Contains(searchData.Search) ||
-                                a.LocationId.Equals(searchData.Search)
+                                a.LocationId.ToString().Contains(searchData.Search)
                             )
                             .Select(e => new SearchResponse
                             {
@@ -151,15 +152,15 @@ namespace Asset_Management.Controllers
                         searchResults.AddRange(locations);
                         break;
                     case 4: //Service Records
-                        var serviceRecords = _context.ServiceRecord.Where(a => a.AssetId.Equals(searchData.Search) ||
+                        var serviceRecords = _context.ServiceRecord.Where(a => a.AssetId.ToString().Contains(searchData.Search) ||
                                 a.DeviceName.Contains(searchData.Search) ||
                                 a.PartsReplaced.Contains(searchData.Search) ||
-                                a.Problem.Equals(searchData.Search) ||
-                                a.ServiceRecordId.Equals(searchData.Search)
-                            )
+                                a.Problem.ToString().Contains(searchData.Search) ||
+                                a.ServiceRecordId.ToString().Contains(searchData.Search)
+                            ).Include(b => b.Asset)                          
                             .Select(e => new SearchResponse
                             {
-                                Display = e.AssetId + " Service",
+                                Display = e.Asset.AssetId + " Service",
                                 ID = e.ServiceRecordId,
                                 Path = "/ServiceRecords/Details/" + e.ServiceRecordId
                             })

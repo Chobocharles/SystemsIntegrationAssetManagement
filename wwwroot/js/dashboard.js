@@ -53,7 +53,7 @@ function searchMain(form) {
 
                     var p2 = document.createElement("p")
                     p2.className = "small font-weight-bold mb-0 pb-2"
-                    p2.textContent = path.split("/")[1] + ": " + ID
+                    p2.textContent = path.split("/")[1] + " ID: " + ID
 
                     var hr = document.createElement("hr")
                     hr.className = "m-0 p-0"

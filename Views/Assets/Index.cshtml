@@ -178,11 +178,16 @@
                         @Html.DisplayFor(modelItem => item.Condition.Condition1)
                     </td>
                     <td>
-                        
-
-                        <a asp-controller="Contacts" asp-action="Details" asp-route-id="@item.ContactId">
-                            @Html.DisplayFor(modelItem => item.Contact.DisplayName)
-                        </a>
+                        @if (item.Contact != null)
+                        {
+                            <a asp-controller="Contacts" asp-action="Details" asp-route-id="@item.ContactId">
+                                @Html.DisplayFor(modelItem => item.Contact.DisplayName)
+                            </a>
+                        }
+                        else
+                        {
+                            <span>Unassigned</span>
+                        }
 
                     </td>
                     <td>

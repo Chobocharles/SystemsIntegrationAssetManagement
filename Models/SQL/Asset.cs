@@ -47,10 +47,9 @@ namespace Asset_Management.Models.SQL
         [StringLength(255)]
         public string Model { get; set; }
         public string Comments { get; set; }
-        [Required]
         [Column("ContactID")]
         [Display(Name = "Contact*")]
-        public int ContactId { get; set; }
+        public int? ContactId { get; set; }
         [Column(TypeName = "date")]
         [Display(Name = "Retired Date")]
         public DateTime? RetiredDate { get; set; }

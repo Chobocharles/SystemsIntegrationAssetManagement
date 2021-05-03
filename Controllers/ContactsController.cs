@@ -117,7 +117,7 @@ namespace Asset_Management.Controllers
                                 a.Province.Contains(searchString) ||
                                 a.State.Contains(searchString) ||
                                 a.ZipCode.Contains(searchString) ||
-                                a.ContactId.Equals(searchString)
+                                a.ContactId.ToString().Contains(searchString)
                             );
             }
 
@@ -151,7 +151,7 @@ namespace Asset_Management.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contact
+            var contact = await _context.Contact.Include(e => e.Asset)
                 .FirstOrDefaultAsync(m => m.ContactId == id);
             if (contact == null)
             {
@@ -298,7 +298,7 @@ namespace Asset_Management.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contact
+            var contact = await _context.Contact.Include(m => m.Asset)
                 .FirstOrDefaultAsync(m => m.ContactId == id);
             if (contact == null)
             {
@@ -314,6 +314,15 @@ namespace Asset_Management.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var contact = await _context.Contact.FindAsync(id);
+            var assetsAssigned = _context.Asset.Where(m => m.ContactId.Equals(id));
+
+            foreach(var asset in assetsAssigned)
+            {
+                var updateAsset = asset;
+                updateAsset.ContactId = null;
+                _context.Entry(asset).CurrentValues.SetValues(updateAsset);
+            }
+
             _context.Contact.Remove(contact);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
